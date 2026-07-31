@@ -1,0 +1,89 @@
+@font-face {
+  font-family: "PoppinsBold";
+  src: 
+    url("../fonts/Poppins-Bold.woff2") format("woff2"),
+    url("../fonts/Poppins-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: "arial", sans-serif;
+  background-color: #E1F0F9;
+}
+
+h1 {
+  font-family: "poppinsBold", sans-serif;
+}
+
+
+.swiper { 
+  width: 100%;
+  height: auto;
+}
+.thumbsSwiper {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: #E1F0F9;
+  z-index: 9999;
+  border-top: 2px solid rgba(15, 15, 15, 0.11); 
+}
+.thumbsSwiper, swiper-slide {
+  color: #292929;
+  padding: 1.5em;
+  font-family: "poppinsBold", sans-serif;
+}
+.swiper-slide span {
+  background-color: 0;
+  width: 100%;
+  padding: 0.7em;
+  border-radius: 100px;
+  cursor: pointer;
+  text-align: center;
+  margin: 5px auto;
+}
+.swiper-slide span:hover {
+  background-color: #292929;
+  color: #fafafa;
+  transition: .2s ease-in;
+}
+.swiper-button-prev, .swiper-button-next {
+  background-color: #292929;
+  color: #fafafa;
+  border-radius: 100px;
+  padding: 13px;
+  width: 45px;
+  height: 45px;
+}
+.swiper-button-prev:hover, .swiper-button-next:hover {
+  background-color: #fafafa;
+  color: #292929;
+}
+
+@media screen and (max-width: 500px) {
+.swiper-slide p {
+    display: flex;
+  }
+}
+
+.bg-title {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  font-family: 'poppinsBold', sans-serif;
+}
+.bg-text {
+  color: #292929 !important;
+  background-color: none !important;
+}
+.big-welcome-logo {
+    width: 20% !important;
+    margin: 30px auto;
+    text-align: center !important;
+}
+
+
+
+
