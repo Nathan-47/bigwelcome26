@@ -1,6 +1,6 @@
 @font-face {
   font-family: "PoppinsBold";
-  src: 
+  src:
     url("../fonts/Poppins-Bold.woff2") format("woff2"),
     url("../fonts/Poppins-Bold.ttf") format("truetype");
   font-weight: bold;
@@ -18,10 +18,11 @@ h1 {
 }
 
 
-.swiper { 
+.swiper {
   width: 100%;
   height: auto;
 }
+
 .thumbsSwiper {
   position: fixed;
   left: 0;
@@ -29,61 +30,103 @@ h1 {
   width: 100%;
   background: #E1F0F9;
   z-index: 9999;
-  border-top: 2px solid rgba(15, 15, 15, 0.11); 
+  border-top: 2px solid rgba(15, 15, 15, 0.11);
+  padding: 1.1em;
+  text-align: center;
+  margin: auto;
 }
-.thumbsSwiper, swiper-slide {
+
+.thumbsSwiper .swiper-slide {
   color: #292929;
-  padding: 1.5em;
   font-family: "poppinsBold", sans-serif;
+  width: auto;
+  padding: 0;
 }
+
 .swiper-slide span {
   background-color: 0;
-  width: 100%;
   padding: 0.7em;
   border-radius: 100px;
   cursor: pointer;
   text-align: center;
   margin: 5px auto;
 }
+
+.thumbsSwiper .swiper-slide-thumb-active span {
+  background: #292929;
+  color: #fff;
+}
+
+.thumbsSwiper .swiper-slide span {
+  padding: .6rem 3em;
+}
+
 .swiper-slide span:hover {
   background-color: #292929;
   color: #fafafa;
   transition: .2s ease-in;
 }
-.swiper-button-prev, .swiper-button-next {
-  background-color: #292929;
-  color: #fafafa;
+
+.swiper-button-prev,
+.swiper-button-next {
+  background-color: none;
+  color: #292929;
+  border: 3px solid #292929;
   border-radius: 100px;
   padding: 13px;
-  width: 45px;
-  height: 45px;
+  width: 48px;
+  height: 48px;
 }
-.swiper-button-prev:hover, .swiper-button-next:hover {
-  background-color: #fafafa;
-  color: #292929;
+
+.swiper-button-prev {
+  left: 1em !important;
+}
+
+.swiper-button-next {
+  right: 1em !important;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  background-color: #292929;
+  color: #fafafa;
+}
+
+@media screen and (max-width: 768px) {
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .swiper-slide {
+    padding: 1em;
+    margin: 5px auto;
+  }
 }
 
 @media screen and (max-width: 500px) {
-.swiper-slide p {
+  .swiper-slide p {
     display: flex;
   }
 }
+
 
 .bg-title {
   margin-top: 1.5em;
   margin-bottom: 1.5em;
   font-family: 'poppinsBold', sans-serif;
 }
+
 .bg-text {
   color: #292929 !important;
   background-color: none !important;
 }
+
 .big-welcome-logo {
-    width: 20% !important;
-    margin: 30px auto;
-    text-align: center !important;
+  width: 20% !important;
+  margin: 30px auto;
+  text-align: center !important;
 }
-
-
-
-
