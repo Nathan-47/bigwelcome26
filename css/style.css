@@ -23,6 +23,10 @@ h1 {
   height: auto;
 }
 
+.swiper-wrapper {
+  gap: 0.35rem;
+}
+
 .thumbsSwiper {
   position: fixed;
   left: 0;
@@ -30,7 +34,7 @@ h1 {
   width: 100%;
   background: #E1F0F9;
   z-index: 9999;
-  border-top: 2px solid rgba(15, 15, 15, 0.11);
+  border-top: 10px solid rgb(15 15 15 / 30%);
   padding: 1.1em;
   text-align: center;
   margin: auto;
@@ -41,6 +45,7 @@ h1 {
   font-family: "poppinsBold", sans-serif;
   width: auto;
   padding: 0;
+  font-weight: 800;
 }
 
 .swiper-slide span {
@@ -92,6 +97,18 @@ h1 {
   color: #fafafa;
 }
 
+@media screen and (max-width: 990px) {
+  .thumbsSwiper .swiper-slide span {
+    padding: .6rem 2em;
+  }
+}
+
+@media screen and (max-width: 840px) {
+  .thumbsSwiper .swiper-slide span {
+    padding: .6rem 1em;
+  }
+}
+
 @media screen and (max-width: 768px) {
 
   .swiper-button-prev,
@@ -110,6 +127,16 @@ h1 {
 @media screen and (max-width: 500px) {
   .swiper-slide p {
     display: flex;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .thumbsSwiper .swiper-slide {
+    color: #292929;
+    font-family: "poppinsBold", sans-serif;
+    width: auto;
+    padding: 0;
+    font-weight: 800;
   }
 }
 
