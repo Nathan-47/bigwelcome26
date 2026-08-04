@@ -1,38 +1,41 @@
 const thumbsSwiper = new Swiper(".thumbsSwiper", {
-  slidesPerView: "auto",
+  slidesPerView: 6,
+spaceBetween: 0,
   watchSlidesProgress: true,
-  watchSlidesVisibility: true,
 
   freeMode: true,
 
   slideToClickedSlide: true,
 
   breakpoints: {
-    320: {
-      slidesPerView: 2.2,
-    },
-    410: {
-      slidesPerView: 2.5,
-    },
-    500: {
-      slidesPerView: 3,
-    },
-    576: {
-      slidesPerView: 3.2,
-    },
-    600: {
-      slidesPerView: 3.6,
-    },
-    803: {
-      slidesPerView: 5,
-    },
-    990: {
-      slidesPerView: 5,
-    },
-    1024: {
-      slidesPerView: 5,
-    },
+  200: {
+    slidesPerView: 2,
   },
+  300: {
+    slidesPerView: 2,
+  },
+  310: {
+    slidesPerView: 2.5
+  },
+  400: {
+    slidesPerView: 2.5,
+  },
+  500: {
+    slidesPerView: 3,
+  },
+  576: {
+    slidesPerView: 2.5,
+  },
+  600: {
+    slidesPerView: 3.2,
+  },
+  803: {
+    slidesPerView: 4,
+  },
+  1024: {
+    slidesPerView: 6,
+  },
+}
 });
 
 const mainSwiper = new Swiper(".mainSwiper", {
@@ -47,6 +50,21 @@ const mainSwiper = new Swiper(".mainSwiper", {
 });
 
 {/* allows automatic slide to show clickable options on bottom nav */}
-mainSwiper.on("slideChange", () => {
-  thumbsSwiper.slideTo(Math.max(0, mainSwiper.activeIndex - 1));
+function moveSlide() {
+    let previousIndex = 0;
+    
+    mainSwiper.on("slideChange", () => {
+
+    if (mainSwiper.activeIndex > previousIndex) {
+        // Moving forwards
+        thumbsSwiper.slideTo(mainSwiper.activeIndex);
+    } else {
+        // Moving backwards
+        thumbsSwiper.slideTo(Math.max(mainSwiper.activeIndex - 1, 0));
+    }
+
+    previousIndex = mainSwiper.activeIndex;
 });
+}
+
+moveSlide();
