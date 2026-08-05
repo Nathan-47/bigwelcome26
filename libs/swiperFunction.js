@@ -1,10 +1,8 @@
 const thumbsSwiper = new Swiper(".thumbsSwiper", {
   slidesPerView: 6,
-spaceBetween: 0,
+  spaceBetween: 0,
   watchSlidesProgress: true,
-
   freeMode: true,
-
   slideToClickedSlide: true,
 
   breakpoints: {
@@ -46,7 +44,14 @@ const mainSwiper = new Swiper(".mainSwiper", {
   thumbs: {
     swiper: thumbsSwiper,
   },
-  allowTouchMove: false,
+  allowTouchMove: true,
+  autoHeight: true,
+
+  breakpoints: {
+    991: {
+        allowTouchMove: false,
+    }
+  }
 });
 
 {/* allows automatic slide to show clickable options on bottom nav */}
