@@ -89,6 +89,7 @@ h1 {
   padding: 13px;
   width: 48px;
   height: 48px;
+  position: fixed;
 }
 
 .swiper-button-prev {
