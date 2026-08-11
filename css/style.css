@@ -1,21 +1,12 @@
-@font-face {
-  font-family: "PoppinsBold";
-  src:
-    url("../fonts/Poppins-Bold.woff2") format("woff2"),
-    url("../fonts/Poppins-Bold.ttf") format("truetype");
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-
 body {
   font-family: "arial", sans-serif;
   background-color: #E1F0F9;
+  margin: 0;
 }
 
-h1 {
+/* h1 {
   font-family: "poppinsBold", sans-serif;
-}
+} */
 
 
 .swiper {
@@ -161,7 +152,7 @@ h1 {
 .bg-title {
   margin-top: 1.5em;
   margin-bottom: 1.5em;
-  font-family: 'poppinsBold', sans-serif;
+  /* font-family: 'poppinsBold', sans-serif; */
 }
 
 .bg-text {
@@ -173,4 +164,11 @@ h1 {
   width: 20% !important;
   margin: 30px auto;
   text-align: center !important;
+}
+
+.instagram-media {
+  max-width: 540px; 
+  min-width: 326px; 
+  width: 70%;
+  margin: auto;
 }
