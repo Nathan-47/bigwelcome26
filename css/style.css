@@ -43,38 +43,33 @@ body {
   justify-content: center;
   text-align: center;
 }
-.swiper-slide span {
-  background-color: 0;
-  padding: 0.7em;
-  border-radius: 100px;
-  cursor: pointer;
-  text-align: center;
-  margin: 5px auto;
+
+.thumbsSwiper .swiper-slide button {
+    display: block;
+    width: 100%;
+    padding: .75rem 0;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: #e1f0f9;
+    border: 0;
+    border-radius: 100px;
 }
 
-.thumbsSwiper .swiper-slide-thumb-active span {
-  background: #292929;
-  color: #fff;
+.thumbsSwiper .swiper-slide button.active {
+    background: #292929 !important;
+    color: #fff;
 }
 
-.thumbsSwiper .swiper-slide span {
-  display: block;
-  width: 100%;
-  padding: .75rem 0;
-  text-align: center;
-  font-size: 1rem;
-  font-weight: 800;
-}
-
-.swiper-slide span:hover {
-  background-color: #292929;
-  color: #fafafa;
-  transition: .2s ease-in;
+.thumbsSwiper .swiper-slide button:hover {
+    background-color: #292929;
+    color: #fafafa;
+    transition: .2s ease-in;
 }
 
 .swiper-button-prev,
 .swiper-button-next {
-  background-color: none;
+  background-color: #e1f0f9;
   color: #292929;
   border: 3px solid #292929;
   border-radius: 100px;
@@ -99,19 +94,19 @@ body {
 }
 
 @media screen and (max-width: 1110px) {
-  .thumbsSwiper .swiper-slide span {
+  .thumbsSwiper .swiper-slide button {
     padding: .6rem 1em;
   }
 }
 
 @media screen and (max-width: 990px) {
-  .thumbsSwiper .swiper-slide span {
+  .thumbsSwiper .swiper-slide button {
     padding: .6rem 2em;
   }
 }
 
 @media screen and (max-width: 840px) {
-  .thumbsSwiper .swiper-slide span {
+  .thumbsSwiper .swiper-slide button {
     padding: .6rem 1em;
   }
 }
@@ -130,21 +125,21 @@ body {
 }
 
 @media screen and (max-width: 412px) {
-  .thumbsSwiper .swiper-slide span {
+  .thumbsSwiper .swiper-slide button {
     padding: .6rem 0em;
     font-size: 0.9rem;
   }
 }
 
 @media screen and (max-width: 380px) {
-  .thumbsSwiper .swiper-slide span {
+  .thumbsSwiper .swiper-slide button {
     padding: .5rem .4rem;
     font-size: .85rem;
   }
 }
 
 @media screen and (max-width: 320px) {
-  .thumbsSwiper .swiper-slide span {
+  .thumbsSwiper .swiper-slide button {
     font-size: .8rem;
   }
 }
