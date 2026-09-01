@@ -242,9 +242,9 @@ body {
 .cta-block {
   background: #e1f0f9;
   color: #292929;
-  width: 70%;
+  width: 60%;
   border-radius: 12px;
-  padding: 25px;
+  padding: 45px;
   margin: auto;
   position: relative;
   border: 2px solid #292929;
@@ -256,7 +256,10 @@ body {
   font-size: 2rem;
   font-weight: 800;
 }
-
+.soc-col {
+  width: 100% !important;
+  margin: 15px auto;
+}
 .cta-icon-heading {
   width: 100px;
   height: auto;
@@ -266,9 +269,9 @@ body {
 
 .cta-icon {
   position: absolute;
-  top: -2.5rem;
-  right: -1.4em;
-  width: 60px !important;
+  top: -1.8rem;
+  right: -1em;
+  width: 45px !important;
   height: auto !important;
   z-index: 100;
 }
@@ -396,6 +399,11 @@ body {
     margin-top: 3em !important;
     gap: 40px;
   }
+
+  .cta-block {
+    width: 100% !important;
+    margin-bottom: 0em;
+  }
 }
 
 @media screen and (max-width: 575px) {
@@ -405,5 +413,11 @@ body {
 
   .society-blocks .block {
     flex: 1 1 100%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .cta-block {
+    padding: 30px !important;
   }
 }
