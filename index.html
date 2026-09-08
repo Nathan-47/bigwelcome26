@@ -304,7 +304,626 @@
 </div>
 
                     <div class="swiper-slide">
-                        
+                        <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Big Welcome Fair — Interactive Map | BCUSU</title>
+<style>
+  :root{
+    --navy:#0B2340;
+    --navy-2:#122d52;
+    --teal:#00B2A9;
+    --teal-dark:#00847d;
+    --gold:#FFCC00;
+    --cream:#F7F8FA;
+    --line:#e2e6ea;
+    --text:#1b2530;
+    --text-soft:#5a6b7a;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Segoe UI', system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+    background:var(--cream);
+    color:var(--text);
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    background:var(--navy);
+    color:#fff;
+    padding:22px clamp(16px,4vw,40px);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    border-bottom:4px solid var(--teal);
+  }
+  .brand{display:flex;flex-direction:column;gap:2px;}
+  .brand .mark{
+    font-weight:800;
+    letter-spacing:.5px;
+    font-size:13px;
+    color:var(--teal);
+    text-transform:uppercase;
+  }
+  .brand h1{
+    margin:0;
+    font-size:clamp(20px,3vw,28px);
+    font-weight:800;
+    line-height:1.15;
+  }
+  .brand p{
+    margin:2px 0 0;
+    color:#b9c6d6;
+    font-size:14px;
+  }
+  .legend{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+    font-size:13px;
+    color:#dbe4ee;
+  }
+  .legend span{display:flex;align-items:center;gap:6px;white-space:nowrap;}
+  .legend i{width:11px;height:11px;border-radius:3px;display:inline-block;flex:none;}
+
+  /* ---------- Layout ---------- */
+  main{
+    display:flex;
+    align-items:flex-start;
+    gap:0;
+    max-width:1500px;
+    margin:0 auto;
+    padding:clamp(14px,2.5vw,28px);
+  }
+  .map-wrap{
+    position:relative;
+    flex:1 1 auto;
+    min-width:0;
+    background:#dceaf6;
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:0 1px 3px rgba(11,35,64,.08);
+    line-height:0;
+  }
+  .map-inner{position:relative;width:100%;}
+  .map-inner img{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none;}
+  svg.overlay{position:absolute;inset:0;width:100%;height:100%;}
+
+  .zone{
+    fill:rgba(0,178,169,0);
+    stroke:rgba(0,178,169,0);
+    stroke-width:6;
+    cursor:pointer;
+    transition:fill .15s ease, stroke .15s ease;
+    pointer-events:all;
+  }
+  .zone:hover{fill:rgba(0,178,169,.28);stroke:rgba(0,132,125,.9);}
+  .zone:focus-visible{fill:rgba(0,178,169,.28);stroke:var(--navy);outline:none;}
+  .zone.active{fill:rgba(255,204,0,.32);stroke:var(--navy);stroke-width:7;}
+  .zone.info-pin{stroke-width:4;}
+  .zone.info-pin:hover{fill:rgba(120,130,140,.28);stroke:rgba(90,100,110,.9);}
+  .zone.info-pin.active{fill:rgba(120,130,140,.32);}
+
+  .pin-badge{pointer-events:none;}
+  .pin-badge circle{fill:var(--navy);stroke:#fff;stroke-width:5;}
+  .pin-badge text{fill:#fff;font-weight:800;font-size:34px;font-family:inherit;text-anchor:middle;dominant-baseline:central;}
+
+  .hint{
+    position:absolute;
+    left:14px;
+    bottom:14px;
+    background:rgba(11,35,64,.85);
+    color:#fff;
+    padding:8px 14px;
+    border-radius:999px;
+    font-size:13px;
+    pointer-events:none;
+    transition:opacity .3s ease;
+  }
+
+  /* ---------- Side panel ---------- */
+  .panel{
+    flex:0 0 380px;
+    max-width:380px;
+    margin-left:22px;
+    background:#fff;
+    border-radius:var(--radius);
+    box-shadow:0 1px 3px rgba(11,35,64,.08);
+    align-self:flex-start;
+    position:sticky;
+    top:22px;
+    max-height:calc(100vh - 44px);
+    overflow-y:auto;
+  }
+  .panel-empty{
+    padding:36px 26px;
+    text-align:center;
+    color:var(--text-soft);
+  }
+  .panel-empty .big{
+    font-size:34px;
+    margin-bottom:10px;
+  }
+  .panel-head{
+    padding:22px 24px 16px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .panel-head .tag{
+    display:inline-block;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:.4px;
+    text-transform:uppercase;
+    color:var(--teal-dark);
+    background:rgba(0,178,169,.12);
+    padding:4px 9px;
+    border-radius:999px;
+    margin-bottom:10px;
+  }
+  .panel-head h2{
+    margin:0;
+    font-size:22px;
+    line-height:1.25;
+  }
+  .panel-head p{
+    margin:8px 0 0;
+    color:var(--text-soft);
+    font-size:14.5px;
+    line-height:1.5;
+  }
+  .close-btn{
+    position:absolute;
+    top:16px;
+    right:16px;
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    border:none;
+    background:var(--cream);
+    color:var(--navy);
+    font-size:16px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .close-btn:hover{background:var(--line);}
+
+  .panel-body{padding:6px 24px 24px;}
+  .section{margin-top:18px;}
+  .section h3{
+    margin:0 0 8px;
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.4px;
+    color:var(--navy);
+    font-weight:800;
+  }
+  .section ul{margin:0;padding:0;list-style:none;}
+  .section li{
+    padding:9px 0;
+    border-top:1px solid var(--line);
+    font-size:14.5px;
+    line-height:1.45;
+  }
+  .section li:first-child{border-top:none;}
+  .section li strong{display:block;color:var(--navy);}
+  .section li span.note{color:var(--text-soft);}
+
+  .no-stalls{
+    margin-top:16px;
+    padding:12px 14px;
+    background:var(--cream);
+    border-radius:10px;
+    font-size:14px;
+    color:var(--text-soft);
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width:880px){
+    main{flex-direction:column;padding:14px;}
+    .panel{
+      flex:none;
+      max-width:none;
+      width:100%;
+      margin-left:0;
+      margin-top:16px;
+      position:static;
+      max-height:none;
+    }
+    .legend{display:none;}
+    header{flex-direction:column;align-items:flex-start;}
+  }
+
+  /* ---------- Zone editor (utility for building/refining shapes) ---------- */
+  .editor-toggle{
+    position:absolute;
+    top:12px;
+    right:12px;
+    background:rgba(11,35,64,.75);
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    padding:7px 10px;
+    font-size:12px;
+    cursor:pointer;
+    z-index:5;
+  }
+  .editor-toggle:hover{background:rgba(11,35,64,.92);}
+  .editor-panel{
+    position:absolute;
+    top:52px;
+    right:12px;
+    width:min(300px,80vw);
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    box-shadow:0 6px 18px rgba(11,35,64,.18);
+    padding:12px;
+    font-size:12.5px;
+    z-index:5;
+    display:none;
+  }
+  .editor-panel.open{display:block;}
+  .editor-panel h4{margin:0 0 6px;font-size:13px;}
+  .editor-panel textarea{
+    width:100%;
+    height:70px;
+    font-family:monospace;
+    font-size:11px;
+    resize:vertical;
+    margin-top:6px;
+  }
+  .editor-panel .row{display:flex;gap:6px;margin-top:8px;}
+  .editor-panel button{
+    flex:1;
+    padding:6px 8px;
+    font-size:12px;
+    border-radius:6px;
+    border:1px solid var(--line);
+    background:var(--cream);
+    cursor:pointer;
+  }
+  .editor-panel button.primary{background:var(--teal);color:#fff;border-color:var(--teal);}
+  .draw-dot{fill:var(--gold);stroke:var(--navy);stroke-width:3;}
+</style>
+</head>
+<body>
+
+<main>
+  <div class="map-wrap">
+    <button class="editor-toggle" id="editorToggle" title="Zone shape helper">✎ Adjust zones</button>
+    <div class="editor-panel" id="editorPanel">
+      <h4>Zone shape helper</h4>
+      <div>Click the map to drop points, then copy them into a zone's <code>points</code> array in the code.</div>
+      <textarea id="editorOutput" readonly placeholder="Points will appear here…"></textarea>
+      <div class="row">
+        <button id="editorClear">Clear</button>
+        <button id="editorCopy" class="primary">Copy</button>
+      </div>
+    </div>
+    <div class="map-inner" id="mapInner">
+      <img id="mapImg" src="./images/map_bwf_26_web.png" alt="Big Welcome Fair campus map: RBC, Parkside Building, Millennium Point, Eastside Park, Curzon Stage on Cardigan Street, Gopsal Street stalls, and Curzon Building ground floor" draggable="false">
+      <svg class="overlay" id="overlay" viewBox="0 0 2853 2250" preserveAspectRatio="xMidYMid meet" aria-hidden="false"></svg>
+      <div class="hint" id="hint">Tap a building or area to see what's on</div>
+    </div>
+  </div>
+
+  <aside class="panel" id="panel">
+    <div class="panel-empty" id="panelEmpty">
+      <div class="big">🗺️</div>
+      <div>Select an area on the map to see the stalls, events and facilities there.</div>
+    </div>
+  </aside>
+</main>
+
+<script>
+/* =========================================================================
+   ZONE DATA
+   Each zone needs: id, name, tag (category label), shape ('polygon' | 'circle'),
+   points (for polygon, "x,y x,y ..." in the SAME pixel space as the source
+   image — this file uses the image's natural size, 2853 x 2250) or cx/cy/r
+   (for circle pins), colorClass, and content sections.
+
+   The polygon points below are a close approximation traced from the fair
+   map. Use the "✎ Adjust zones" tool in the top-right of the map to click
+   out more precise points for any shape, then paste them in here.
+   ========================================================================= */
+  const ZONES = [
+    {
+      id: "curzon-building",
+      name: "Curzon Building",
+      tag: "Ground floor · Curzon Building",
+      shape: "polygon",
+      points: "1427,855 1541,720 1798,652 1997,608 2226,675 2368,743 2768,712 2790,760 2768,1350 2568,1463 2454,1530 2282,1575 2168,1485 1940,1598 1769,1800 1655,1890 1484,1778 1427,1620",
+      colorClass: "building",
+      description: "We're taking over the Curzon Building with our partners — claim freebies and exclusive student discounts from some of your favourite brands.",
+      sections: [
+        {
+          heading: "Atrium space / Curzon B study space",
+          items: [
+            { title: "Nando's", note: "Freebies & offers" },
+            { title: "The Gym", note: "Membership offers" },
+            { title: "Pure Gym", note: "Membership offers" },
+            { title: "…and many more", note: "To be announced" }
+          ]
+        },
+        {
+          heading: "C087",
+          items: [
+            { title: "Mixed stalls", note: "Including BCU Support stalls" }
+          ]
+        },
+        {
+          heading: "Quiet Room (C001)",
+          items: [
+            { title: "Access via the Library entrance", note: "Quiet zone — for a break from the fair" }
+          ]
+        },
+        {
+          heading: "Also on this floor",
+          items: [
+            { title: "Canteen" },
+            { title: "Campus Shop by BCUSU" },
+            { title: "Eagle & Ball" },
+            { title: "The Hive" },
+            { title: "BCUSU Info Point" },
+            { title: "Toilets, first aid & water refill points", note: "Marked on the map" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "gopsal-street",
+      name: "Gopsal Street",
+      tag: "Outdoor stalls",
+      shape: "polygon",
+      points: "1312,743 1358,600 1450,520 1600,470 1800,440 2010,435 2220,460 2400,520 2460,610 2440,700 2368,743 2226,675 1997,608 1798,652 1541,720",
+      colorClass: "stalls",
+      description: "Stalls line the street outside the Curzon Building entrance.",
+      sections: [
+        {
+          heading: "Stalls",
+          items: [
+            { title: "BCUSU Spin the Wheel", note: "Follow us to win prizes" },
+            { title: "BCU Sport", note: "Meet BCU sport teams" },
+            { title: "BCUSU Campus Shop stall", note: "BCU hoodies — exclusive offer: £30 for faculty hoodies" },
+            { title: "Eagle & Ball", note: "£2.50 mini pizzas, until stocks last*" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "curzon-stage",
+      name: "Curzon Stage",
+      tag: "Cardigan Street",
+      shape: "polygon",
+      points: "1500,1790 1712,1770 1745,1990 1660,2040 1480,2000",
+      colorClass: "stalls",
+      description: "What to expect in front of the Curzon Building.",
+      sections: [
+        {
+          heading: "Stage performances",
+          items: [
+            { title: "Lauren Redfern & DJ Beats & Smiles", note: "Former Scratch Radio host, now BBC Radio 1 presenter" },
+            { title: "Half Brassed", note: "Royal Birmingham Conservatoire band — pop hits from a 7-piece brass band" },
+            { title: "DJ sets from local nightclubs", note: "Schedule coming soon" }
+          ]
+        },
+        {
+          heading: "Food",
+          items: [
+            { title: "Food vans / trucks", note: "TBC" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "eastside-park",
+      name: "Eastside Park",
+      tag: "Outdoor activities",
+      shape: "polygon",
+      points: "913,1643 1427,1643 1484,1900 1427,2140 1000,2200 810,2050 800,1780",
+      colorClass: "park",
+      description: "Head across to the park for animals and activities.",
+      sections: [
+        {
+          heading: "What's on",
+          items: [
+            { title: "Mini petting zoo", note: "Shetland ponies, lambs, chicks, guinea pigs and rabbits (animals subject to change)" },
+            { title: "Rock climbing wall", note: "Give it a go!" },
+            { title: "Meltdown inflatable", note: "Can you be the last one standing? Groups of 8" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "rbc",
+      name: "RBC (Royal Birmingham Conservatoire)",
+      tag: "Nearby",
+      shape: "circle",
+      cx: 143, cy: 700, r: 70,
+      colorClass: "info",
+      description: "The Conservatoire is running its own fair.",
+      sections: [
+        { heading: "On site", items: [{ title: "RBC Fair", note: "Separate event — see RBC for details" }] }
+      ]
+    },
+    {
+      id: "parkside",
+      name: "Parkside Building",
+      tag: "Nearby",
+      shape: "circle",
+      cx: 1084, cy: 1330, r: 65,
+      colorClass: "info",
+      description: "",
+      sections: [],
+      noStalls: true
+    },
+    {
+      id: "millennium-point",
+      name: "Millennium Point",
+      tag: "Nearby",
+      shape: "circle",
+      cx: 257, cy: 1370, r: 65,
+      colorClass: "info",
+      description: "",
+      sections: [],
+      noStalls: true
+    }
+  ];
+
+  const overlay = document.getElementById("overlay");
+  const panel = document.getElementById("panel");
+  const panelEmpty = document.getElementById("panelEmpty");
+  const hint = document.getElementById("hint");
+  let activeId = null;
+
+  function buildShape(zone){
+    const ns = "http://www.w3.org/2000/svg";
+    let el;
+    if (zone.shape === "polygon"){
+      el = document.createElementNS(ns, "polygon");
+      el.setAttribute("points", zone.points);
+    } else {
+      el = document.createElementNS(ns, "circle");
+      el.setAttribute("cx", zone.cx);
+      el.setAttribute("cy", zone.cy);
+      el.setAttribute("r", zone.r);
+    }
+    el.setAttribute("class", "zone" + (zone.shape === "circle" ? " info-pin" : ""));
+    el.setAttribute("tabindex", "0");
+    el.setAttribute("role", "button");
+    el.setAttribute("aria-label", zone.name);
+    el.dataset.id = zone.id;
+    el.addEventListener("click", () => selectZone(zone.id));
+    el.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " "){ e.preventDefault(); selectZone(zone.id); }
+    });
+    return el;
+  }
+
+  ZONES.forEach(zone => overlay.appendChild(buildShape(zone)));
+
+  // small "i" badges on the info-only pins so they read clearly at a glance
+  ZONES.filter(z => z.shape === "circle").forEach(zone => {
+    const ns = "http://www.w3.org/2000/svg";
+    const g = document.createElementNS(ns, "g");
+    g.setAttribute("class", "pin-badge");
+    const c = document.createElementNS(ns, "circle");
+    c.setAttribute("cx", zone.cx); c.setAttribute("cy", zone.cy - zone.r - 34); c.setAttribute("r", 30);
+    const t = document.createElementNS(ns, "text");
+    t.setAttribute("x", zone.cx); t.setAttribute("y", zone.cy - zone.r - 34);
+    t.textContent = "i";
+    g.appendChild(c); g.appendChild(t);
+    overlay.appendChild(g);
+  });
+
+  function renderPanel(zone){
+    hint.style.opacity = "0";
+    let html = `
+      <div class="panel-head">
+        <button class="close-btn" id="closeBtn" aria-label="Close">✕</button>
+        <span class="tag">${zone.tag}</span>
+        <h2>${zone.name}</h2>
+        ${zone.description ? `<p>${zone.description}</p>` : ""}
+      </div>
+      <div class="panel-body">`;
+
+    if (zone.noStalls){
+      html += `<div class="no-stalls">No stalls here for the Welcome Fair — head to Curzon Building or Gopsal Street.</div>`;
+    } else {
+      zone.sections.forEach(section => {
+        html += `<div class="section"><h3>${section.heading}</h3><ul>`;
+        section.items.forEach(item => {
+          html += `<li><strong>${item.title}</strong>${item.note ? `<span class="note">${item.note}</span>` : ""}</li>`;
+        });
+        html += `</ul></div>`;
+      });
+    }
+    html += `</div>`;
+    panel.innerHTML = html;
+    document.getElementById("closeBtn").addEventListener("click", clearSelection);
+  }
+
+  function selectZone(id){
+    const zone = ZONES.find(z => z.id === id);
+    if (!zone) return;
+    activeId = id;
+    overlay.querySelectorAll(".zone").forEach(el => el.classList.toggle("active", el.dataset.id === id));
+    renderPanel(zone);
+  }
+
+  function clearSelection(){
+    activeId = null;
+    overlay.querySelectorAll(".zone").forEach(el => el.classList.remove("active"));
+    panel.innerHTML = "";
+    panel.appendChild(panelEmpty);
+    hint.style.opacity = "1";
+  }
+
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") clearSelection(); });
+
+  /* ---------------------------------------------------------------------
+     Zone shape helper — click the map to log points in the SAME pixel
+     space as the ZONES data above (natural image size). Use this to
+     trace exact building outlines, then paste the result into a zone's
+     `points` field. Safe to delete this whole block for a production
+     build.
+     --------------------------------------------------------------------*/
+  const editorToggle = document.getElementById("editorToggle");
+  const editorPanel = document.getElementById("editorPanel");
+  const editorOutput = document.getElementById("editorOutput");
+  const mapInner = document.getElementById("mapInner");
+  const mapImg = document.getElementById("mapImg");
+  let editing = false;
+  let drawPoints = [];
+
+  editorToggle.addEventListener("click", () => {
+    editing = !editing;
+    editorPanel.classList.toggle("open", editing);
+    editorToggle.textContent = editing ? "✎ Editing…" : "✎ Adjust zones";
+  });
+  editorPanel.addEventListener("click", (e) => e.stopPropagation());
+
+  function clientToImagePoint(evt){
+    const rect = mapImg.getBoundingClientRect();
+    const nx = (evt.clientX - rect.left) / rect.width;
+    const ny = (evt.clientY - rect.top) / rect.height;
+    return [Math.round(nx * 2853), Math.round(ny * 2250)];
+  }
+
+  mapInner.addEventListener("click", (evt) => {
+    if (!editing) return;
+    if (evt.target.closest(".editor-panel") || evt.target.closest(".editor-toggle")) return;
+    const [x, y] = clientToImagePoint(evt);
+    drawPoints.push([x, y]);
+    editorOutput.value = drawPoints.map(p => p.join(",")).join(" ");
+    const ns = "http://www.w3.org/2000/svg";
+    const dot = document.createElementNS(ns, "circle");
+    dot.setAttribute("cx", x); dot.setAttribute("cy", y); dot.setAttribute("r", 14);
+    dot.setAttribute("class", "draw-dot");
+    overlay.appendChild(dot);
+  });
+
+  document.getElementById("editorClear").addEventListener("click", () => {
+    drawPoints = [];
+    editorOutput.value = "";
+    overlay.querySelectorAll(".draw-dot").forEach(d => d.remove());
+  });
+  document.getElementById("editorCopy").addEventListener("click", () => {
+    editorOutput.select();
+    document.execCommand("copy");
+  });
+</script>
+</body>
+</html>
 
                     </div>
 
