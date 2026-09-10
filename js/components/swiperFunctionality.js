@@ -57,7 +57,7 @@ export function initSwiperFunctionality() {
     //   swiper: thumbsSwiper,
     // },
     allowTouchMove: true,
-    autoHeight: true,
+    autoHeight: false,
 
     breakpoints: {
       991: {
